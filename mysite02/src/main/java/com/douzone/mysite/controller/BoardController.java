@@ -14,9 +14,10 @@ public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String actionName = request.getParameter("a");
 
+		System.out.println("board 컨트롤러");
+		
 		Action action = new BoardActionFactory().getAction(actionName);
 		action.execute(request, response);
 		

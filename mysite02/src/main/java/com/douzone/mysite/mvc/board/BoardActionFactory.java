@@ -9,17 +9,19 @@ public class BoardActionFactory extends ActionFactory {
 	public Action getAction(String actionName) {
 		
 		Action action = null;
-		
+
 		if("writeform".equals(actionName)) {
 			action = new WriteFormAction();
 		} else if("write".equals(actionName)) {
 			action = new WriteAction();
-		} else if("modify".equals(actionName)) {
-			action = new UserRecognition();
-		} else if("modifyform".equals(actionName)) {
-			action = new ModifyformAction();
-		} else if("write".equals(actionName)) {
-			action = new WriteAction();
+		} else if("delete".equals(actionName)) {
+			action = new BoardDeleteAction();
+		} else if("view".equals(actionName)) {
+			action = new BoardViewAction();
+		} else if("updateform".equals(actionName)) {
+			action = new BoardUpdateFormAction();
+		} else if("update".equals(actionName)) {
+			action = new BoardUpdateAction();
 		} else {
 			action = new BoardListAction();
 		}
