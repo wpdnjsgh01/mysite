@@ -17,30 +17,55 @@ public class WriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//세션인증
+		// 세션인증
 		HttpSession session = request.getSession();
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			
-			System.out.println("WriteAction");	
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+
 			MvcUtil.redirect(request.getContextPath(), request, response);
-		}	
-		else {
-			Long no = authUser.getNo();
 			
-			BoardVo vo = new BoardVo();
+		} else {
+		
+			String boardNo = request.getParameter("boardNo");
 			
 			String title = request.getParameter("title");
-			String content = request.getParameter("content");
+			String contents = request.getParameter("contents");
+			String userNo = request.getParameter("userNo");
+			String groupNo = request.getParameter("groupNo");
+			String orderNo = request.getParameter("orderNo");
+			String depth = request.getParameter("depth");
 			
+			String board = request.getParameter("board");
+			
+			BoardVo vo = new BoardVo();	
+
 			vo.setTitle(title);
-			vo.setContents(content);
-			vo.setUserNo(no);
+			vo.setContents(contents);
+			vo.setUserNo(Long.parseLong(userNo));
 			
-			new BoardDao().insert(vo);
+			if ( "".equals(boardNo) || boardNo == null) {
+				
+				new BoardDao().insert(vo);
+				
+			} else {
+				
+				vo.setGroupNo(Long.parseLong(groupNo));
+				vo.setOrderNo(Long.parseLong(orderNo));
+				new BoardDao().replyUpdate(vo); 
+				
+				Long setOrderNo = Long.parseLong(orderNo)+1L;
+				Long setDepth = Long.parseLong(orderNo)+1L; 
+				vo.setGroupNo(Long.parseLong(groupNo));
+				vo.setOrderNo(setOrderNo);
+				vo.setDepth(setDepth);
+				
+				new BoardDao().replyInsert(vo);
+			}
 			
 			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
+			
 		}
+		
 	}
 
 }

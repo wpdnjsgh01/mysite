@@ -11,18 +11,25 @@ import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class BoardUpdateFormAction implements Action {
+public class UpdateAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		BoardVo vo = new BoardVo();
+		
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		Long no = Long.parseLong(request.getParameter("no"));
 		
-		BoardVo vo = new BoardDao().findByID(no);
+		vo.setTitle(title);
+		vo.setContents(content);
+		vo.setNo(no);
+		
+		new BoardDao().update(vo);
+		
+		MvcUtil.redirect(request.getContextPath() + "/board", request, response);
 
-		request.setAttribute("vo", vo);
-		
-		MvcUtil.forward("board/modify", request, response);
-		
 	}
 
 }

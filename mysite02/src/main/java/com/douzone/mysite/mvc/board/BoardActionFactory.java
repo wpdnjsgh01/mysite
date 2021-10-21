@@ -15,15 +15,15 @@ public class BoardActionFactory extends ActionFactory {
 		} else if("write".equals(actionName)) {
 			action = new WriteAction();
 		} else if("delete".equals(actionName)) {
-			action = new BoardDeleteAction();
+			action = new DeleteAction();
 		} else if("view".equals(actionName)) {
-			action = new BoardViewAction();
+			action = new ViewAction();
 		} else if("updateform".equals(actionName)) {
-			action = new BoardUpdateFormAction();
+			action = new UpdateFormAction();
 		} else if("update".equals(actionName)) {
-			action = new BoardUpdateAction();
+			action = new UpdateAction();
 		} else {
-			action = new BoardListAction();
+			action = new ListAction();
 		}
 		
 		return action;

@@ -7,21 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.dao.BoardDao;
-import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class BoardViewAction implements Action {
+public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("no"));
 		
-		BoardVo vo = new BoardDao().findByID(id);
+		Long no = Long.parseLong(request.getParameter("no"));
 		
-		request.setAttribute("vo", vo);
+		new BoardDao().delete(no);
 		
-		MvcUtil.forward("board/view", request, response);
+		MvcUtil.redirect(request.getContextPath() + "/board", request, response);
 	}
 
 }

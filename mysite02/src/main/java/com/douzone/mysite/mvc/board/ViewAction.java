@@ -1,7 +1,6 @@
 package com.douzone.mysite.mvc.board;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,16 +11,17 @@ import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class BoardListAction implements Action {
+public class ViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<BoardVo> list = new BoardDao().findAll();
+		Long id = Long.parseLong(request.getParameter("no"));
 		
-		request.setAttribute("list", list);
+		BoardVo vo = new BoardDao().findByID(id);
 		
-		MvcUtil.forward("board/list", request, response);
-
+		request.setAttribute("vo", vo);
+		
+		MvcUtil.forward("board/view", request, response);
 	}
 
 }
