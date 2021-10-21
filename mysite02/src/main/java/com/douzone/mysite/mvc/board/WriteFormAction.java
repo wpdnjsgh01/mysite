@@ -25,6 +25,7 @@ public class WriteFormAction implements Action {
 		}
 		
 		MvcUtil.forward("board/write", request, response);
+		
 	}
 
 }

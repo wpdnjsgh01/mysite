@@ -15,11 +15,11 @@ public class ViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("no"));
+		int id = Integer.parseInt(request.getParameter("no"));
 		
 		BoardVo vo = new BoardDao().findByID(id);
 		
-		request.setAttribute("vo", vo);
+		BoardVo vo2 = new BoardDao().hitCount(id);
 		
 		MvcUtil.forward("board/view", request, response);
 	}

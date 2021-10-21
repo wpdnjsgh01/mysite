@@ -30,7 +30,7 @@ public class GuestbookDao {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				Long no = rs.getLong(1);
+				int no = rs.getInt(1);
 				String name = rs.getString(2);
 				String regDate = rs.getString(3);
 				String message = rs.getString(4);
@@ -80,7 +80,7 @@ public class GuestbookDao {
 					"    and password=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setInt(1, vo.getNo());
 			pstmt.setString(2, vo.getPassword());
 			
 			int count = pstmt.executeUpdate();

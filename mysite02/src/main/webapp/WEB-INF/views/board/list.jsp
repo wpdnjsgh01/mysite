@@ -18,7 +18,12 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board?a=search" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <input type="submit" value="찾기">
+					<input type="text" id="kwd" name="kwd" value="">
+					<select id="box" name="box" size="1">
+						<option value="tit">제목으로</option>
+						<option value="cont">내용으로</option>
+					</select> 
+					<input type="submit" value="검색">
 					<table class="tbl-ex">
 						<tr>
 							<th>번호</th>
@@ -27,14 +32,13 @@
 							<th>조회수</th>
 							<th>작성일</th>
 							<th>&nbsp;</th>
-						</tr> 
+						</tr>
 						<c:forEach items='${list }' var='vo' varStatus='status'>
-						<c:set var='dto' value='${list2[status.index] }'/>
-						<!-- items='${list2 }' var='dto' -->
+							<c:set var='dto' value='${list2[status.index] }' />
 							<c:choose>
 								<c:when test="${vo.depth == 0 }">
 									<tr>
-										<td>3</td>
+										<td>${vo.no }</td>
 										<td style="text-align: left; padding-left: 0px"><a
 											href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
 										<td>${dto.userName }</td>
@@ -53,10 +57,10 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td>2</td>
+										<td>${vo.no }</td>
 										<td style="text-align:left; padding-left:${20*vo.depth }px"><img
 											src='${pageContext.servletContext.contextPath }/assets/images/reply.png' /><a
-											href="">${vo.title }</a></td>
+											href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
 										<td>${dto.userName}</td>
 										<td>${vo.hit }</td>
 										<td>${vo.regDate }</td>
@@ -80,14 +84,14 @@
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
-						<li class="selected"><a href="">1</a></li>
-						<li>2</li>
+						<li><a href="">1</a></li>
+						<li class="selected">2</li>
 						<li><a href="">3</a></li>
 						<li>4</li>
 						<li>5</li>
 						<li><a href="">▶</a></li>
 					</ul>
-				</div>
+				</div>		
 				<!-- pager 추가 -->
 
 				<div class="bottom">

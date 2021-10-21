@@ -15,7 +15,7 @@ public class UpdateFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long no = Long.parseLong(request.getParameter("no"));
+		int no = Integer.parseInt(request.getParameter("no"));
 		
 		BoardVo vo = new BoardDao().findByID(no);
 

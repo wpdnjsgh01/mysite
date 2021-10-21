@@ -32,7 +32,7 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				Long no = rs.getLong(1);
+				int no = rs.getInt(1);
 				String name = rs.getString(2);
 				
 				vo = new UserVo();
@@ -113,7 +113,7 @@ public class UserDao {
 		return conn;
 	}
 
-	public UserVo findByNo(Long no) {
+	public UserVo findByNo(int no) {
 		UserVo vo = null;
 		
 		Connection conn = null;
@@ -129,14 +129,14 @@ public class UserDao {
 				"  where no=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, no);
+			pstmt.setInt(1, no);
 
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				vo = new UserVo();
 				
-				vo.setNo(rs.getLong(1));
+				vo.setNo(rs.getInt(1));
 				vo.setName(rs.getString(2));
 				vo.setEmail(rs.getString(3));
 				vo.setGender(rs.getString(4));
@@ -179,7 +179,7 @@ public class UserDao {
 				
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getGender());
-				pstmt.setLong(3, vo.getNo());
+				pstmt.setInt(3, vo.getNo());
 			} else {
 				String sql =
 						" update user " + 
@@ -190,7 +190,7 @@ public class UserDao {
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getGender());
 				pstmt.setString(3, vo.getPassword());
-				pstmt.setLong(4, vo.getNo());
+				pstmt.setInt(4, vo.getNo());
 			}
 			
 			int count = pstmt.executeUpdate();

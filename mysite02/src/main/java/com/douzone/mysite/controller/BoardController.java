@@ -19,6 +19,8 @@ public class BoardController extends HttpServlet {
 		Action action = new BoardActionFactory().getAction(actionName);
 		action.execute(request, response);
 		
+		
+		
 	}
 
 

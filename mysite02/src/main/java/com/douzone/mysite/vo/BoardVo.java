@@ -3,23 +3,22 @@ package com.douzone.mysite.vo;
 import java.util.Date;
 
 public class BoardVo {
-	private Long no;
+	private int no;
 	private String title;
 	private String contents;
 	private int hit;
 	private Date regDate;
-	private Long groupNo;
-	private Long orderNo;
-	private Long depth;
-	private Long userNo;
+	private int groupNo;
+	private int orderNo;
+	private int depth;
+	private int userNo;
 	
 	
 	
 	public BoardVo() {
 		super();
 	}
-	public BoardVo(String title, String contents, int hit, Date regDate, Long groupNo, Long orderNo, Long depth,
-			Long userNo) {
+	public BoardVo(String title, String contents, int hit, Date regDate, int groupNo, int orderNo, int depth, int userNo) {
 		super();
 		this.title = title;
 		this.contents = contents;
@@ -30,10 +29,10 @@ public class BoardVo {
 		this.depth = depth;
 		this.userNo = userNo;
 	}
-	public Long getNo() {
+	public int getNo() {
 		return no;
 	}
-	public void setNo(Long no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 	public String getTitle() {
@@ -60,30 +59,34 @@ public class BoardVo {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	public Long getGroupNo() {
+	public int getGroupNo() {
 		return groupNo;
 	}
-	public void setGroupNo(Long groupNo) {
+	public void setGroupNo(int groupNo) {
 		this.groupNo = groupNo;
 	}
-	public Long getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
-	public void setOrderNo(Long orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	public Long getDepth() {
+	public int getDepth() {
 		return depth;
 	}
-	public void setDepth(Long depth) {
+	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-	public Long getUserNo() {
+	public int getUserNo() {
 		return userNo;
 	}
-	public void setUserNo(Long userNo) {
+	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
+	
+	
+	
+	
 	
 	@Override
 	public String toString() {

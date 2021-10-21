@@ -15,7 +15,6 @@ import com.douzone.mysite.vo.UserVo;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
 	@Autowired
 	private UserService userService;
 	
@@ -40,9 +39,11 @@ public class UserController {
 		return "user/login";
 	}
 
-	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session) {
-		return "user/update";
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.removeAttribute("authUser");
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -63,5 +64,37 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.GET)
+	public String update(HttpSession session, Model model) {
+		// 접근제어(Access Control List)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////////////////////////////////////////////////
+		
+		UserVo userVo = userService.getUser(authUser.getNo());
+		model.addAttribute("userVo", userVo);
+		
+		return "user/update";
+	}	
+
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(HttpSession session, UserVo userVo) {
+		// 접근제어(Access Control List)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////////////////////////////////////////////////
+		
+		userVo.setNo(authUser.getNo());
+		userService.updateUser(userVo);
+		
+		authUser.setName(userVo.getName());
+		
+		return "redirect:/user/update";
+	}	
 	
 }

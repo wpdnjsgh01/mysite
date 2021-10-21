@@ -41,7 +41,7 @@
 						</c:otherwise>
 					</c:choose>
 					<c:if test="${not empty authUser}">
-						<a href="${pageContext.request.contextPath }/board?a=writeform&reply=${vo.no}">댓글작성</a>
+						<a href="${pageContext.request.contextPath }/board?a=replyform&no=${vo.no}">댓글작성</a>
 					</c:if>
 				</div>
 			</div>

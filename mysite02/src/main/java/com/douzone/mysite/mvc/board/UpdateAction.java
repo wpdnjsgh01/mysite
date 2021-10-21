@@ -20,7 +20,7 @@ public class UpdateAction implements Action {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		Long no = Long.parseLong(request.getParameter("no"));
+		int no = Integer.parseInt(request.getParameter("no"));
 		
 		vo.setTitle(title);
 		vo.setContents(content);

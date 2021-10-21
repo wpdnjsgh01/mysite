@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class BoardDto {
 
-	private Long no;
+	private int no;
 	private String title;
 	private String contents;
 	private int hit;
 	private Date regDate;
-	private Long groupNo;
-	private Long orderNo;
-	private Long depth;
+	private int groupNo;
+	private int orderNo;
+	private int depth;
 	private String userName;
 
 	@Override
@@ -21,11 +21,11 @@ public class BoardDto {
 				+ userName + "]";
 	}
 
-	public Long getNo() {
+	public int getNo() {
 		return no;
 	}
 
-	public void setNo(Long no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 
@@ -61,27 +61,27 @@ public class BoardDto {
 		this.regDate = regDate;
 	}
 
-	public Long getGroupNo() {
+	public int getGroupNo() {
 		return groupNo;
 	}
 
-	public void setGroupNo(Long groupNo) {
+	public void setGroupNo(int groupNo) {
 		this.groupNo = groupNo;
 	}
 
-	public Long getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(Long orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
 
-	public Long getDepth() {
+	public int getDepth() {
 		return depth;
 	}
 
-	public void setDepth(Long depth) {
+	public void setDepth(int depth) {
 		this.depth = depth;
 	}
 

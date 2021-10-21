@@ -13,24 +13,28 @@ import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class UserRecognition implements Action {
+public class ReplyFormAction implements Action {
 
-	public void execute (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//세션인증
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		String userNo = Long.toString(authUser.getNo());
-		
-		String no = request.getParameter("user_no");
-		
-		if(userNo != no){
-			
-			System.out.println("작성자가 틀립니다.");
-			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
-			
-		} else {
-			MvcUtil.forward("board/modify", request, response);
+		if(authUser == null) {
+			MvcUtil.forward("user/loginform", request, response);
+			return;
 		}
 		
+		int id = Integer.parseInt(request.getParameter("no"));
+		
+		BoardVo vo = new BoardDao().findByID(id);
+		
+		request.setAttribute("vo", vo);
+		
+		
+		MvcUtil.forward("board/replywrite", request, response);
+		
 	}
+	
 }
