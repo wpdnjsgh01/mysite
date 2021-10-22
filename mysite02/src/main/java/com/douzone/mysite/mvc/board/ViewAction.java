@@ -18,10 +18,29 @@ public class ViewAction implements Action {
 		int id = Integer.parseInt(request.getParameter("no"));
 		
 		BoardVo vo = new BoardDao().findByID(id);
-		
 		BoardVo vo2 = new BoardDao().hitCount(id);
 		
+		request.setAttribute("vo", vo);
+		
 		MvcUtil.forward("board/view", request, response);
+		
+		/*
+		 	int no = authUser.getNo();
+			
+			BoardVo vo = new BoardVo();
+			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			vo.setTitle(title);
+			vo.setContents(content);
+			vo.setUserNo(no);
+			
+			new BoardDao().insert(vo);
+			
+			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
+		 * */
+		
 	}
 
 }

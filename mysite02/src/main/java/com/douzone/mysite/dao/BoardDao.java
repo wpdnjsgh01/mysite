@@ -229,10 +229,6 @@ public class BoardDao {
 		return vo;
 	}
 
-		
-	
-	
-
 	public List<BoardVo> searchbyTitle(String titles) {
 		List<BoardVo> list = new ArrayList<>();
 
@@ -645,4 +641,172 @@ public class BoardDao {
 		}
 
 	}
+
+	public int getCount(String kwd) {
+		
+		int rowCount = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			conn = getConnection();
+
+			String sql = "select * from board where title = ? || contents = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, kwd);
+			pstmt.setString(2, kwd);
+			
+
+			rs = pstmt.executeQuery();
+			
+			rs.last();
+			
+			rowCount = rs.getRow(); 
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return rowCount;
+	}
+	
+	public int getCount() {
+		
+		int rowCount = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			conn = getConnection();
+
+			String sql = "select * from board";
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+			
+			rs.last();
+			
+			rowCount = rs.getRow(); 
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return rowCount;
+	}
+		
+	
+	
+	public List<BoardVo> PagingList(int listLimit, int limitCount) {
+		List<BoardVo> result = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "select b.no, b.title, b.hit, " +
+						 "if(curdate() = date_format(reg_date, '%Y-%m-%d'), " + 
+						 " date_format(reg_date, '%H:%i'), date_format(reg_date, '%Y.%m.%d')), " + 
+						 " b.group_no, b.order_no, b.depth, u.name, b.user_no, b.delete_flag " + 
+						 " from board b, user u " + 
+						 " where b.user_no = u.no " + 
+						 "	  and b.no not in (select b.no " +
+						 "					   from board b, " +
+						 "							(select group_no, count(*) as count" +
+						 "							 from board " + 
+						 "						     group by group_no) b2 " + 
+						 "					   where b.group_no = b2.group_no " +
+						 "						  and order_no = 0 " +
+						 "						  and b2.count = 1) " +
+						 " order by b.group_no desc, b.order_no asc " + 
+						 " limit ?, ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, listLimit);
+			pstmt.setLong(2, limitCount);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int no = rs.getInt(1);
+				String title = rs.getString(2);
+				String content = rs.getString(8);
+				int hit = rs.getInt(3);
+				Date regDate = rs.getDate(4);
+				int groupNo = rs.getInt(5);
+				int orderNo = rs.getInt(6);
+				int depth = rs.getInt(7);
+				int userNo = rs.getInt(9);
+				
+				
+				BoardVo vo = new BoardVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContents(content);
+				vo.setHit(hit);
+				vo.setRegDate(regDate);
+				vo.setGroupNo(groupNo);
+				vo.setOrderNo(orderNo);
+				vo.setDepth(depth);
+				vo.setUserNo(userNo);
+				
+				result.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	
 }
+	

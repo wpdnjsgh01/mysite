@@ -33,15 +33,9 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<c:choose>
-						<c:when test='${authUser.no == vo.userNo }'>
-							<a href="${pageContext.request.contextPath }/board?a=updateform&no=${vo.no }">글수정</a>
-						</c:when>
-						<c:otherwise>
-						</c:otherwise>
-					</c:choose>
 					<c:if test="${not empty authUser}">
 						<a href="${pageContext.request.contextPath }/board?a=replyform&no=${vo.no}">댓글작성</a>
+						<a href="${pageContext.request.contextPath }/board?a=updateform&no=${vo.no }">글수정</a>
 					</c:if>
 				</div>
 			</div>

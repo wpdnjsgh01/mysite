@@ -79,8 +79,7 @@
 						</c:forEach>
 					</table>
 				</form>
-
-				<!-- pager 추가 -->
+				<!-- 
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
@@ -92,8 +91,8 @@
 						<li><a href="">▶</a></li>
 					</ul>
 				</div>		
-				<!-- pager 추가 -->
-
+				-->
+				<c:import url="/WEB-INF/views/includes/paging.jsp" />
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?a=writeform"
 						id="new-book">글쓰기</a>
