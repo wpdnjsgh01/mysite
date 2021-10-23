@@ -17,13 +17,14 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board?a=search" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
-					<select id="box" name="box" size="1">
+				<form id="search_form"
+					action="${pageContext.request.contextPath }/board?a=search"
+					method="post">
+					<input type="text" id="kwd" name="kwd" value=""> <select
+						id="box" name="box" size="1">
 						<option value="tit">제목으로</option>
 						<option value="cont">내용으로</option>
-					</select> 
-					<input type="submit" value="검색">
+					</select> <input type="submit" value="검색">
 					<table class="tbl-ex">
 						<tr>
 							<th>번호</th>
@@ -79,7 +80,7 @@
 						</c:forEach>
 					</table>
 				</form>
-				<!-- 
+				
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
@@ -91,8 +92,7 @@
 						<li><a href="">▶</a></li>
 					</ul>
 				</div>		
-				-->
-				<c:import url="/WEB-INF/views/includes/paging.jsp" />
+				
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?a=writeform"
 						id="new-book">글쓰기</a>

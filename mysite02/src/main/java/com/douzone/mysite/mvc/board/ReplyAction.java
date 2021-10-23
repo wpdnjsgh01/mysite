@@ -26,25 +26,31 @@ public class ReplyAction implements Action{
 			
 		} else {
 			
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-			int id = Integer.parseInt(request.getParameter("no"));
+			String title = request.getParameter("title"); //작성 폼에서 제목 가져오기
+			String content = request.getParameter("content"); //작성 폼에서 내용 가져오기
+			int no = Integer.parseInt(request.getParameter("no")); // 작성 인덱스 가져오기
 			
-			int userNo = authUser.getNo();
+			int userNo = authUser.getNo(); //현재 사용자의 사용자 no를 userNO에 담기
 		
-			BoardVo vo = new BoardDao().findByID(id);
-			BoardVo rp = new BoardDao().replyInsert(vo)
+			//BoardVo vo = new BoardDao().findByID(no); // 인덱스로 글 찾기
 			
-			request.setAttribute("vo", vo);
+			BoardVo board = new BoardDao().boardInfo(no); //인덱스로 보드 정보 가져오기
 			
+			int group_No = board.getGroupNo();
+			int order_No = board.getOrderNo();
+			int depth = board.getDepth();
 			
-			int user_no = authUser.getNo();
+			BoardVo boardVo = new BoardVo();
 			
-			vo.setTitle(title);
-			vo.setContents(content);
-			vo.setUserNo(user_no);
+			boardVo.setTitle(title);
+			boardVo.setContents(content);
+			boardVo.setGroupNo(group_No);
+			boardVo.setOrderNo(order_No);
+			boardVo.setDepth(depth);
+			boardVo.setUserNo(userNo);
 			
-			new BoardDao().replyInsert(vo);
+			new BoardDao().replyUpdate(boardVo);
+			new BoardDao().replyInsert(boardVo);
 			
 			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
 		}
