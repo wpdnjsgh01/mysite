@@ -4,6 +4,9 @@
 	<insert id="insert" parameterType="boardvo">
 		<choose>
 			<when test="groupNo == null">
+			
+			<!-- <![CDATA[ ~~~ ]]> --> 태그 안에 있는 문자를 문자열로 바꿔준다 -->
+			
 				<![CDATA[
 				insert
 				  into board

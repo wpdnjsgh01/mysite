@@ -26,16 +26,18 @@ public class ReplyAction implements Action{
 			
 		} else {
 			
-			System.out.println("reply action 진입");
-			
-			int id = Integer.parseInt(request.getParameter("no"));
-		
-			BoardVo vo = new BoardDao().findByID(id);
-		
-			request.setAttribute("vo", vo);
-			
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
+			int id = Integer.parseInt(request.getParameter("no"));
+			
+			int userNo = authUser.getNo();
+		
+			BoardVo vo = new BoardDao().findByID(id);
+			BoardVo rp = new BoardDao().replyInsert(vo)
+			
+			request.setAttribute("vo", vo);
+			
+			
 			int user_no = authUser.getNo();
 			
 			vo.setTitle(title);
