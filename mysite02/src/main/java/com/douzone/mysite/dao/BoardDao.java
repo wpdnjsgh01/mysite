@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.douzone.mysite.mvc.dto.BoardDto;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.PageVo;
 
 public class BoardDao {
 
@@ -97,7 +98,7 @@ public class BoardDao {
 
 	//////////////////////////////////////////////////////////////////////////
 
-	public List<BoardVo> findAllbyVo() {
+	public List<BoardVo> findAllbyVo(PageVo page) {
 		List<BoardVo> list = new ArrayList<>();
 
 		Connection conn = null;
@@ -108,10 +109,13 @@ public class BoardDao {
 			conn = getConnection();
 
 			String sql = "select * "
-					+ "from board "
-					+ "order by group_no desc, order_no asc, depth asc";
+					+ "   from board "
+					+ "   order by group_no desc, order_no asc, depth asc"
+					+ "   limit ?, 5";
 			pstmt = conn.prepareStatement(sql);
-
+			pstmt.setInt(1, page.getNum());
+			System.out.println(page.getNum());
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

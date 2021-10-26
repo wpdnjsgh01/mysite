@@ -11,6 +11,16 @@ public class BoardVo {
 	private int groupNo;
 	private int orderNo;
 	private int depth;
+	private String userName;
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	private int userNo;
 	private boolean delete_check;
 
@@ -115,8 +125,8 @@ public class BoardVo {
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
-				+ regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
-				+ ", delete_check=" + delete_check + "]";
+				+ regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userName="
+				+ userName + ", userNo=" + userNo + ", delete_check=" + delete_check + "]";
 	}
 
 }

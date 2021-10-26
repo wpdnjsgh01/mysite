@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.mysite.dao.BoardDao;
 import com.douzone.mysite.mvc.dto.BoardDto;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.PageVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
@@ -17,10 +18,24 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int cur;
+		if(request.getParameter("cur") == null) {
+			cur = 1;
+		}else {
+			cur = Integer.parseInt(request.getParameter("cur"));	
+		}
+		
+		int curPage = Integer.parseInt(request.getParameter("cur"));
 		
 		List<BoardDto> list2 = new BoardDao().findAllbyDto();
-		List<BoardVo> list = new BoardDao().findAllbyVo();
+		int total = new BoardDao().getCount();
 		
+		
+		// 현재 페이지, 총 개수
+		PageVo page = new PageVo(cur, total);
+		List<BoardVo> list = new BoardDao().findAllbyVo(page);
+		
+		request.setAttribute("page", page);
 		request.setAttribute("list", list);
 		request.setAttribute("list2", list2);
 		

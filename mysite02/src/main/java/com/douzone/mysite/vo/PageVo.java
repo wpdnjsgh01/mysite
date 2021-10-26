@@ -2,56 +2,46 @@ package com.douzone.mysite.vo;
 
 public class PageVo {
 
-	private int curPage;
-	private int totalPage;
-	private int begin;
-	private int end;
+	private int curPage; // 현재 페이지
+	private int totalPage; // 총페이지
+	private int beginPage; //
+	private int endPage; //
+
+	private int pageSet;
+
 	private int nextPage;
 	private int prevPage;
-	private int cntPerPage;
-	private int pageRange;
-	private int offset;
+
+	private int cntPerPage = 5; // 페이지당 개수
+	private int pageRange = 5; // 밑에 5개
+	private int total;
 
 	public PageVo() {
 		super();
-		this.cntPerPage = 5;
-		this.pageRange = 5;
 	}
 
-	public int getOffset() {
-		return offset;
+	public PageVo(int curPage, int total) {
+		super();
+		
+		this.curPage = curPage; // 1
+		this.total = total; // 60
+		// 2 > 0.4[1] * 5 = 5
+		// 여기서 구해야 하는 게 시작 페이지 / 끝 페이지
+
+		this.endPage = (int) (Math.ceil(curPage * 0.2) * 5);
+		this.beginPage = endPage - pageRange + 1;
+		this.pageSet = (int)((curPage -1) * 0.2 + 1);
+		this.totalPage = (int)(total / cntPerPage + 1);
+		this.nextPage = curPage + pageRange;
+		this.prevPage = curPage - pageRange;
+
 	}
 
-	public int getPageRange() {
-		return pageRange;
-	}
-
-	public void setPageRange(int pageRange) {
-		this.pageRange = pageRange;
-	}
-
-	public int getBegin() {
-		return begin;
-	}
-
-	public void setBegin(int begin) {
-		this.begin = begin;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
-	public int getCntPerPage() {
-		return cntPerPage;
-	}
-
-	public void setCntPerPage(int cntPerPage) {
-		this.cntPerPage = cntPerPage;
+	public int getNum() {
+		// limit x, 5;
+		// 페이지가 1이 들어오면 1 / 2가 들어오면 6 / 3이 들어오면 11 / 4 16
+		System.out.println(curPage);
+		return curPage - 1 == 0 ? 1 : (curPage - 1) * cntPerPage + 1;
 	}
 
 	public int getCurPage() {
@@ -62,12 +52,36 @@ public class PageVo {
 		this.curPage = curPage;
 	}
 
+	public int getPageSet() {
+		return pageSet;
+	}
+	
+	public void setPageSet(int pageSet) {
+		this.pageSet = pageSet;
+	}
+	
 	public int getTotalPage() {
 		return totalPage;
 	}
 
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
+	}
+
+	public int getBeginPage() {
+		return beginPage;
+	}
+
+	public void setBeginPage(int beginPage) {
+		this.beginPage = beginPage;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
 	}
 
 	public int getNextPage() {
@@ -86,11 +100,37 @@ public class PageVo {
 		this.prevPage = prevPage;
 	}
 
-	@Override
-	public String toString() {
-		return "PageInfo [curPage=" + curPage + ", totalPage=" + totalPage + ", begin=" + begin + ", end=" + end
-				+ ", nextPage=" + nextPage + ", prevPage=" + prevPage + ", cntPerPage=" + cntPerPage + ", pageRange="
-				+ pageRange + "]";
+	public int getCntPerPage() {
+		return cntPerPage;
 	}
 
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
+
+	public int getPageRange() {
+		return pageRange;
+	}
+
+	public void setPageRange(int pageRange) {
+		this.pageRange = pageRange;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	@Override
+	public String toString() {
+		return "PageVo [curPage=" + curPage + ", totalPage=" + totalPage + ", beginPage=" + beginPage + ", endPage="
+				+ endPage + ", nextPage=" + nextPage + ", prevPage=" + prevPage + ", cntPerPage=" + cntPerPage
+				+ ", pageRange=" + pageRange + ", total=" + total + "]";
+	}
+
+	
+	
 }
