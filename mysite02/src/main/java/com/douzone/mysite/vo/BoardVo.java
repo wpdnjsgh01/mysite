@@ -12,13 +12,14 @@ public class BoardVo {
 	private int orderNo;
 	private int depth;
 	private int userNo;
+	private boolean delete_check;
 
 	public BoardVo() {
 		super();
 	}
 
 	public BoardVo(String title, String contents, int hit, Date regDate, int groupNo, int orderNo, int depth,
-			int userNo) {
+			int userNo, boolean delete_check) {
 		super();
 		this.title = title;
 		this.contents = contents;
@@ -28,6 +29,15 @@ public class BoardVo {
 		this.orderNo = orderNo;
 		this.depth = depth;
 		this.userNo = userNo;
+		this.delete_check = delete_check;
+	}
+
+	public boolean isDelete_check() {
+		return delete_check;
+	}
+
+	public void setDelete_check(boolean delete_check) {
+		this.delete_check = delete_check;
 	}
 
 	public int getNo() {
@@ -106,7 +116,7 @@ public class BoardVo {
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
 				+ regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
-				+ "]";
+				+ ", delete_check=" + delete_check + "]";
 	}
 
 }

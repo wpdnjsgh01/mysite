@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.douzone.mysite.mvc.dto.BoardDto;
 import com.douzone.mysite.vo.BoardVo;
@@ -38,7 +40,9 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String sql = "select a.no, a.title, a.contents, a.hit, a.reg_date, a.group_no, a.order_no, a.depth, b.name from board a, user b where a.user_no = b.no order by a.group_no desc, a.order_no asc, a.depth asc";
+			String sql = "select a.no, a.title, a.contents, a.hit, a.reg_date, a.group_no, a.order_no, a.depth, b.name, a.delete_check "
+					+ "from board a, user b where a.user_no = b.no "
+					+ "order by a.group_no desc, a.order_no asc, a.depth asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -53,6 +57,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				String userName = rs.getString(9);
+				boolean delete_check = rs.getBoolean("delete_check");
 
 				BoardDto dto = new BoardDto();
 				dto.setNo(no);
@@ -64,6 +69,7 @@ public class BoardDao {
 				dto.setOrderNo(orderNo);
 				dto.setDepth(depth);
 				dto.setUserName(userName);
+				dto.setDelete_check(delete_check);
 
 				list.add(dto);
 			}
@@ -101,7 +107,9 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String sql = "select * from board order by group_no desc, order_no asc, depth asc";
+			String sql = "select * "
+					+ "from board "
+					+ "order by group_no desc, order_no asc, depth asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -116,6 +124,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
+				boolean delete_chcek = rs.getBoolean(10);
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -127,6 +136,7 @@ public class BoardDao {
 				vo.setOrderNo(orderNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setDelete_check(delete_chcek);
 
 				list.add(vo);
 			}
@@ -161,7 +171,7 @@ public class BoardDao {
 			conn = getConnection();
 
 			String sql = "insert into board"
-					+ "  select null, ?, ?, 0, now(), ifnull(max(group_no)+1, 1), 0, 0, ? from board";
+					+ "  select null, ?, ?, 0, now(), ifnull(max(group_no)+1, 1), 0, 0, ?, 0 from board";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -253,6 +263,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
+				boolean delete_check = rs.getBoolean(10);
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -264,6 +275,7 @@ public class BoardDao {
 				vo.setOrderNo(orderNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setDelete_check(delete_check);
 
 				list.add(vo);
 			}
@@ -316,6 +328,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
+				boolean delete_check = rs.getBoolean(10);
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -327,6 +340,7 @@ public class BoardDao {
 				vo.setOrderNo(orderNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
+				vo.setDelete_check(delete_check);
 
 				list.add(vo);
 			}
@@ -364,7 +378,7 @@ public class BoardDao {
 			conn = getConnection();
 
 			String sql = "select" + " a.no," + " a.title," + " a.contents," + " a.hit," + " a.reg_date,"
-					+ " a.group_no," + " a.order_no," + " a.depth," + " b.name " + "from board a, user b "
+					+ " a.group_no," + " a.order_no," + " a.depth," + " b.name " + "a.delete_check" + "from board a, user b "
 					+ "where b.name = ? and a.user_no = b.no "
 					+ "order by a.group_no desc, a.order_no asc, a.depth asc";
 
@@ -384,6 +398,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				String userName = rs.getString(9);
+				boolean delete_check = rs.getBoolean(10);
 
 				BoardDto dto = new BoardDto();
 				dto.setNo(no);
@@ -395,6 +410,7 @@ public class BoardDao {
 				dto.setOrderNo(orderNo);
 				dto.setDepth(depth);
 				dto.setUserName(userName);
+				dto.setDelete_check(delete_check);
 
 				list.add(dto);
 
@@ -469,7 +485,7 @@ public class BoardDao {
 
 			conn = getConnection();
 
-			String sql = "INSERT INTO board VALUES (null, ?, ?, 0, now(), ?, ?, ?, ?)";
+			String sql = "INSERT INTO board VALUES (null, ?, ?, 0, now(), ?, ?, ?, ?, 0)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -561,6 +577,7 @@ public class BoardDao {
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
 				int userNo = rs.getInt(9);
+				boolean delete_check = rs.getBoolean(10);
 
 				vo = new BoardVo();
 				vo.setNo(no);
@@ -572,7 +589,7 @@ public class BoardDao {
 				vo.setOrderNo(orderNo);
 				vo.setDepth(depth);
 				vo.setUserNo(userNo);
-
+				vo.setDelete_check(delete_check);
 			}
 
 		} catch (SQLException e) {
@@ -716,43 +733,43 @@ public class BoardDao {
 	}
 
 	public BoardVo boardInfo(int no) {
-		
+
 		BoardVo boardVo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			conn = getConnection();
-			
+
 			String sql = "select no, group_no, order_no, depth from board where no = ?";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setInt(1, no);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				int no2 = rs.getInt(1);
 				int group_no = rs.getInt(2);
 				int order_no = rs.getInt(3);
 				int depth = rs.getInt(4);
-				
+
 				boardVo = new BoardVo();
-				
+
 				boardVo.setNo(no2);
 				boardVo.setGroupNo(group_no);
 				boardVo.setOrderNo(order_no);
 				boardVo.setDepth(depth);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		} finally {
-			
+
 			try {
 				if (pstmt != null) {
 					pstmt.close();
@@ -764,8 +781,42 @@ public class BoardDao {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return boardVo;
+
+	}
+
+	public void deleteAsupdate (int no) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "UPDATE board SET delete_check = 1 where no = ?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, no);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
 		
 	}
 	

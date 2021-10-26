@@ -24,23 +24,6 @@ public class ViewAction implements Action {
 		
 		MvcUtil.forward("board/view", request, response);
 		
-		/*
-		 	int no = authUser.getNo();
-			
-			BoardVo vo = new BoardVo();
-			
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-			
-			vo.setTitle(title);
-			vo.setContents(content);
-			vo.setUserNo(no);
-			
-			new BoardDao().insert(vo);
-			
-			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
-		 * */
-		
 	}
 
 }

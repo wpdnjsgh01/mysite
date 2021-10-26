@@ -36,8 +36,11 @@
 						</tr>
 						<c:forEach items='${list }' var='vo' varStatus='status'>
 							<c:set var='dto' value='${list2[status.index] }' />
+							
+							<!-- 원본글 시작 -->
 							<c:choose>
-								<c:when test="${vo.depth == 0 }">
+							
+								<c:when test="${vo.depth == 0 && vo.delete_check == false}">
 									<tr>
 										<td>${vo.no }</td>
 										<td style="text-align: left; padding-left: 0px"><a
@@ -46,53 +49,89 @@
 										<td>${vo.hit }</td>
 										<td>${vo.regDate }</td>
 										<c:choose>
-											<c:when test='${authUser.no == vo.userNo }'>
-												<td><a
-													href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}">삭제</a></td>
+											<c:when test = "${authUser.no == vo.userNo }">
+												<td>
+													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}">
+														<img src="${pageContext.request.contextPath }/assets/images/recycle.png" />
+													</a>
+												</td>
 											</c:when>
 											<c:otherwise>
-												<td></td>
+												<td>
+												</td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
 								</c:when>
-								<c:otherwise>
+								
+								<c:when test = "${vo.depth == 0 && vo.delete_check == true }">
+									<tr>
+										<td>&nbsp;</td>
+										<td style="text-align: left; padding-left: 0px">삭제되었습니다.</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+								</c:when>
+								
+							</c:choose>
+							<!-- 원본글 end -->
+							
+							<!-- 댓글 start -->
+							<c:choose>
+							
+								<c:when test = "${vo.depth != 0 && vo.delete_check == false}">
 									<tr>
 										<td>${vo.no }</td>
-										<td style="text-align:left; padding-left:${20*vo.depth }px"><img
-											src='${pageContext.servletContext.contextPath }/assets/images/reply.png' /><a
-											href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
+										<td style="text-align:left; padding-left:${20*vo.depth }px">
+											<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+											<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">
+												${vo.title }
+											</a>
+										</td>
 										<td>${dto.userName}</td>
 										<td>${vo.hit }</td>
 										<td>${vo.regDate }</td>
 										<c:choose>
-											<c:when test="${ authUser.no == vo.userNo }">
-												<td><a
-													href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }">삭제</a></td>
+											<c:when test = "${authUser.no == vo.userNo }">
+												<td>
+													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}">
+														<img src="${pageContext.request.contextPath }/assets/images/recycle.png" />
+													</a>
+												</td>
 											</c:when>
 											<c:otherwise>
-												<td></td>
+												<td>
+												</td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
-								</c:otherwise>
+								</c:when>
+								
+								<c:when test = "${vo.depth != 0 && vo.delete_check == true}">
+									<tr>
+										<td></td>
+										<td style="text-align:left; padding-left:${20*vo.depth }px">
+											<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+											삭제되었습니다.
+										</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</c:when>
+																
 							</c:choose>
+							<!-- 댓글 start -->
+							
 						</c:forEach>
 					</table>
 				</form>
+				<c:import url="/WEB-INF/views/includes/paging.jsp" />
 				
-				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
-					</ul>
-				</div>		
-				
+
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?a=writeform"
 						id="new-book">글쓰기</a>

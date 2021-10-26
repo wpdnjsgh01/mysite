@@ -13,12 +13,21 @@ public class BoardDto {
 	private int orderNo;
 	private int depth;
 	private String userName;
+	private boolean delete_check;
+
+	public boolean isDelete_check() {
+		return delete_check;
+	}
+
+	public void setDelete_check(boolean delete_check) {
+		this.delete_check = delete_check;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardDto [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
 				+ regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userName="
-				+ userName + "]";
+				+ userName + ", delete_check=" + delete_check + "]";
 	}
 
 	public int getNo() {
