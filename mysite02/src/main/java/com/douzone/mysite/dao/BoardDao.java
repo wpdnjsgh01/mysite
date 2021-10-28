@@ -98,7 +98,7 @@ public class BoardDao {
 
 	//////////////////////////////////////////////////////////////////////////
 
-	public List<BoardVo> findAllbyVo(PageVo page) {
+	public List<BoardVo> findAllbyVo(PageVo page, String str) {
 		List<BoardVo> list = new ArrayList<>();
 
 		Connection conn = null;
@@ -110,10 +110,12 @@ public class BoardDao {
 
 			String sql = "select * "
 					+ "   from board "
+					+ "	  where title like ?"
 					+ "   order by group_no desc, order_no asc, depth asc"
 					+ "   limit ?, 5";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, page.getNum());
+			pstmt.setString(1, "%" + str + "%");
+			pstmt.setInt(2, page.getNum());
 			System.out.println(page.getNum());
 			
 			rs = pstmt.executeQuery();

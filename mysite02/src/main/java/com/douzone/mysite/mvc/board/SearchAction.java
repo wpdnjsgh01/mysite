@@ -23,13 +23,13 @@ public class SearchAction implements Action {
 			
 			List<BoardVo> list = new BoardDao().searchbyTitle(kwd);
 			request.setAttribute("list", list);
-			MvcUtil.forward("board/searchedList", request, response);
+			MvcUtil.forward("board/list", request, response);
 			
 		} else {
 			
 			List<BoardVo> list = new BoardDao().searchbyCont(kwd);
 			request.setAttribute("list", list);
-			MvcUtil.forward("board/searchedList", request, response);
+			MvcUtil.forward("board/list", request, response);
 			
 		}
 

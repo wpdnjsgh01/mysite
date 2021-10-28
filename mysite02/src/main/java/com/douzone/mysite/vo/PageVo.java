@@ -21,19 +21,34 @@ public class PageVo {
 	}
 
 	public PageVo(int curPage, int total) {
-		super();
 		
-		this.curPage = curPage; // 1
+		super();
+		//this.curPage = curPage;
+		
 		this.total = total; // 60
 		// 2 > 0.4[1] * 5 = 5
 		// 여기서 구해야 하는 게 시작 페이지 / 끝 페이지
 
 		this.endPage = (int) (Math.ceil(curPage * 0.2) * 5);
 		this.beginPage = endPage - pageRange + 1;
-		this.pageSet = (int)((curPage -1) * 0.2 + 1);
-		this.totalPage = (int)(total / cntPerPage + 1);
-		this.nextPage = curPage + pageRange;
-		this.prevPage = curPage - pageRange;
+		this.pageSet = (int)((curPage - 1 ) * 0.2 + 1); // 1 ~ 5는 1페이지셋 6 ~ 10은 2페이지셋
+		
+		if(total % cntPerPage == 0) {
+			this.totalPage = (int)(total / cntPerPage);
+		} else {
+			this.totalPage = (int)(total / cntPerPage + 1);
+		}
+		
+		
+		if( curPage > totalPage ) { 
+			this.curPage = totalPage; 
+		} else {
+			this.curPage = curPage; 
+		}
+		 
+		
+		this.nextPage = curPage + pageRange; // 다음 페이지로 넘어가기 위해서 5를 더해서 ?cur=현재+5
+		this.prevPage = curPage - pageRange; // 이전 페이지로 넘어가기 위해서 5를 더해서 ?cur=현재-5
 
 	}
 

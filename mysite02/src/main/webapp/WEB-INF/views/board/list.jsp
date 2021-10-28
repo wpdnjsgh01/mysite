@@ -18,13 +18,18 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form"
-					action="${pageContext.request.contextPath }/board?a=search"
+					action="${pageContext.request.contextPath }/board?a=list&keyword=${param.keyword}"
 					method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <select
-						id="box" name="box" size="1">
-						<option value="tit">제목으로</option>
-						<option value="cont">내용으로</option>
-					</select> <input type="submit" value="검색">
+					<input type="text" id="kwd" name="kwd" value=""> 
+						
+						
+						<!-- <select id="box" name="box" size="1">
+							<option value="tit">제목으로</option>
+							<option value="cont">내용으로</option>
+						</select> -->
+						
+						 
+					<input type="submit" value="검색">
 					<table class="tbl-ex">
 						<tr>
 							<th>번호</th>
@@ -142,33 +147,41 @@
 						</c:if>
 
 
-
-						<c:choose>
-							<c:when test = "${page.totalPage <= status.index}">
 								<c:forEach begin="${page.beginPage }" end="${page.endPage }" step="1" varStatus="status">
-									<li>
-										<a href="${pageContext.request.contextPath }/board?a=list&cur=${status.index}&keyword=${param.keyword}">${status.index}
-										</a>
-									</li>
+									<c:choose>
+										<c:when test = "${page.totalPage >= status.index }">
+											<li>
+												<a href="${pageContext.request.contextPath }/board?a=list&cur=${status.index}&keyword=${param.keyword}">
+													${status.index}
+												</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li>
+												${status.index}
+											</li>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<li>
-									${status.index}
-								</li>
-							</c:otherwise>
-						</c:choose>
+				
 						
 						
 					
-						<c:if test="${page.nextPage != -1 }">
+						<c:if test="${page.totalPage -2 > page.curPage}">
 							<li>
-								<a href="${pageContext.request.contextPath }/board?a=list&cur=${page.nextPage }&keyword=${param.keyword}">▶</a>
+								<a href="${pageContext.request.contextPath }/board?a=list&cur=${page.nextPage }&keyword=${param.keyword}">
+									▶
+								</a>
 							</li>
 						</c:if>
-						<c:if test="${page.pageSet == page.totalPage }">
-							<li>▶</li>
+						<c:if test="${page.totalPage -2 <= page.curPage}">
+							<li>
+								▶
+							</li>
 						</c:if>
+						
+						
+						
 					</ul>
 				</div>
 

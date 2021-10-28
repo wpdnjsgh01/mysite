@@ -18,14 +18,44 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int cur;
+		
 		if(request.getParameter("cur") == null) {
 			cur = 1;
-		}else {
+		} /*
+			 * else if (Integer.parseInt(request.getParameter("cur")) < 0) { cur = 1; }
+			 */else {
 			cur = Integer.parseInt(request.getParameter("cur"));	
 		}
 		
-		int curPage = Integer.parseInt(request.getParameter("cur"));
+		
+		
+		String kwd;
+		
+		if(request.getParameter("kwd") == null) {
+			kwd = "";
+		} else {
+			kwd = request.getParameter("kwd");
+		}
+		
+		String box = request.getParameter("box");
+		
+		 /* 
+		 * if (box.equals("tit")) {
+		 * 
+		 * List<BoardVo> list = new BoardDao().searchbyTitle(kwd);
+		 * request.setAttribute("list", list); MvcUtil.forward("board/list", request,
+		 * response);
+		 * 
+		 * } else {
+		 * 
+		 * List<BoardVo> list = new BoardDao().searchbyCont(kwd);
+		 * request.setAttribute("list", list); MvcUtil.forward("board/list", request,
+		 * response);
+		 * 
+		 * }
+		 */
 		
 		List<BoardDto> list2 = new BoardDao().findAllbyDto();
 		int total = new BoardDao().getCount();
@@ -33,7 +63,11 @@ public class ListAction implements Action {
 		
 		// 현재 페이지, 총 개수
 		PageVo page = new PageVo(cur, total);
-		List<BoardVo> list = new BoardDao().findAllbyVo(page);
+		BoardVo vo = new BoardVo();
+		
+		
+		List<BoardVo> list = new BoardDao().findAllbyVo(page, kwd);
+
 		
 		request.setAttribute("page", page);
 		request.setAttribute("list", list);

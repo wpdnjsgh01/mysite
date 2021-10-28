@@ -19,7 +19,7 @@ public class BoardActionFactory extends ActionFactory {
 		} else if("reply".equals(actionName)) {
 			action = new ReplyAction();
 		} else if("search".equals(actionName)) {
-			action = new SearchAction();
+			action = new ListAction();
 		} else if("delete".equals(actionName)) {
 			action = new DeleteAction();
 		} else if("view".equals(actionName)) {
